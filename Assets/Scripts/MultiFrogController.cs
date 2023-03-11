@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode.Components;
 
-public class FrogController : MonoBehaviour
+public class MultiFrogController : MonoBehaviour
 {
     // Set animator controller
     public Animator animator;
     public bool midair;
     public bool rolling;
-    public float speed = 1f;
+    public float speed = 2f;
     public float jumpSpeed = 3f;
     public Camera cam;
     public Rigidbody rb;
     public float mouseY = 0;
+    public NetworkAnimator netAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -62,18 +64,18 @@ public class FrogController : MonoBehaviour
         {
             movement.y = jumpSpeed;
             midair = true;
-            animator.SetTrigger("Jump");
+            netAnimator.SetTrigger("Jump");
         }
         else if (midair == true)
         {
-            if (Physics.Raycast(transform.position, Vector3.down, 0.1f))
+            if (Physics.Raycast(transform.position, Vector3.down, 0.15f))
             {
                 midair = false;
             }
         }
         else
         {
-            if (!Physics.Raycast(transform.position, Vector3.down, 0.1f))
+            if (!Physics.Raycast(transform.position, Vector3.down, 0.15f))
             {
                 midair = true;
             }
@@ -82,7 +84,7 @@ public class FrogController : MonoBehaviour
         if (!midair && Input.GetButtonDown("Fire3") && !rolling)
         {
             rolling = true;
-            animator.SetTrigger("Roll");
+            netAnimator.SetTrigger("Roll");
             Invoke("StopRolling", 0.7f);
         }
 
