@@ -18,6 +18,11 @@ public class SingleFrogController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Get the FrogToonMaterial material in the Skinned Mesh Renderer and change its Hue property to a random value for this instance only
+        SkinnedMeshRenderer renderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        Material material = renderer.material;
+        material.SetFloat("_Hue", Random.Range(0f, 360f));
+
     }
 
     // Update is called once per frame
